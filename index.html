@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Enhanced Card Portfolio</title>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+      <style>
+         :root {
+         --primary: #00ff9d;
+         --secondary: #ff00aa;
+         --tertiary: #7b00ff;
+         --dark: #0a0a0a;
+         --light: #ffffff;
+         --card-bg: #111111;
+         --accent: #00ff9d;
+         --gradient: linear-gradient(135deg, #00ff9d 0%, #00aaff 50%, #7b00ff 100%);
+         --gradient-hover: linear-gradient(135deg, #7b00ff 0%, #00aaff 50%, #00ff9d 100%);
+         }
+         body {
+         font-family: 'JetBrains Mono', monospace;
+         margin: 0;
+         background-color: var(--dark);
+         color: var(--primary);
+         line-height: 1.5;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         min-height: 100vh;
+         padding: 1rem;
+         background: radial-gradient(circle at center, #121212 0%, #050505 100%),
+         radial-gradient(circle, rgba(0, 255, 157, 0.05) 1px, transparent 1px),
+         radial-gradient(circle, rgba(0, 255, 157, 0.05) 1px, transparent 1px);
+         background-size: 100% 100%, 15px 15px, 15px 15px;
+         background-position: 0 0, 0 0, 7px 7px;
+         }
+         .portfolio-card {
+         background-color: var(--card-bg);
+         border-radius: 10px;
+         box-shadow: 0 5px 20px rgba(0, 255, 157, 0.15), 
+         0 0 0 1px rgba(0, 255, 157, 0.1),
+         0 0 15px rgba(123, 0, 255, 0.1);
+         overflow: hidden;
+         width: 100%;
+         max-width: 500px;
+         position: relative;
+         animation: cardFloatIn 1s ease-out forwards;
+         }
+         @keyframes cardFloatIn {
+         0% { opacity: 0; transform: translateY(30px); }
+         100% { opacity: 1; transform: translateY(0); }
+         }
+         .card-accent {
+         height: 6px;
+         background: var(--gradient);
+         position: relative;
+         overflow: hidden;
+         }
+         .card-accent::after {
+         content: '';
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+         transform: translateX(-100%);
+         animation: accentShine 3s infinite;
+         }
+         @keyframes accentShine {
+         0% { transform: translateX(-100%); }
+         50% { transform: translateX(100%); }
+         100% { transform: translateX(100%); }
+         }
+         .card-content {
+         padding: 1.5rem;
+         }
+         header {
+         margin-bottom: 1.5rem;
+         position: relative;
+         }
+         .terminal-prefix {
+         color: var(--accent);
+         font-size: 0.8rem;
+         opacity: 0.7;
+         margin-bottom: 0.3rem;
+         display: flex;
+         align-items: center;
+         }
+         .terminal-prefix::after {
+         content: '';
+         display: inline-block;
+         width: 5px;
+         height: 5px;
+         background-color: var(--accent);
+         border-radius: 50%;
+         margin-left: 0.4rem;
+         animation: pulse 2s infinite;
+         }
+         @keyframes pulse {
+         0% { opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0.4); }
+         50% { opacity: 1; box-shadow: 0 0 0 3px rgba(0, 255, 157, 0); }
+         100% { opacity: 0.5; box-shadow: 0 0 0 0 rgba(0, 255, 157, 0); }
+         }
+         h1 {
+         margin: 0;
+         font-size: 1.8rem;
+         font-weight: bold;
+         color: var(--light);
+         letter-spacing: -0.5px;
+         position: relative;
+         display: inline-block;
+         }
+         .typing-effect {
+         display: inline-block;
+         overflow: hidden;
+         white-space: nowrap;
+         border-right: 0.1em solid var(--accent);
+         animation: 
+         typing 1.5s steps(8, end),
+         blink-caret 0.75s step-end infinite;
+         width: 0;
+         animation-fill-mode: forwards;
+         }
+         @keyframes typing {
+         from { width: 0 }
+         to { width: 100% }
+         }
+         @keyframes blink-caret {
+         from, to { border-color: transparent }
+         50% { border-color: var(--accent) }
+         }
+         .name-title-container {
+         display: flex;
+         flex-direction: column;
+         align-items: flex-start;
+         gap: 0.3rem;
+         }
+         .role {
+         font-size: 0.9rem;
+         opacity: 0;
+         color: var(--secondary);
+         animation: fadeIn 0.5s ease-out 2s forwards;
+         display: inline-block;
+         background: linear-gradient(90deg, var(--accent), var(--secondary), var(--tertiary));
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+         margin-top: -15px;
+         }
+         @keyframes fadeIn {
+         from { opacity: 0; transform: translateY(8px); }
+         to { opacity: 1; transform: translateY(0); }
+         }
+         nav {
+         display: flex;
+         margin: 1rem 0;
+         border-bottom: 1px solid rgba(0, 255, 157, 0.2);
+         padding-bottom: 0.3rem;
+         }
+         nav a {
+         color: var(--primary);
+         text-decoration: none;
+         font-size: 0.8rem;
+         margin-right: 1rem;
+         position: relative;
+         transition: color 0.3s ease;
+         opacity: 0;
+         animation: navItemsIn 0.5s ease-out forwards;
+         }
+         nav a:nth-child(1) { animation-delay: 3s; }
+         nav a:nth-child(2) { animation-delay: 3.1s; }
+         nav a:nth-child(3) { animation-delay: 3.2s; }
+         nav a:nth-child(4) { animation-delay: 3.3s; }
+         @keyframes navItemsIn {
+         from { opacity: 0; transform: translateY(8px); }
+         to { opacity: 1; transform: translateY(0); }
+         }
+         nav a::after {
+         content: '';
+         position: absolute;
+         bottom: -6px;
+         left: 0;
+         width: 0%;
+         height: 2px;
+         background: var(--gradient);
+         transition: width 0.3s ease;
+         }
+         nav a:hover, nav a.active {
+         color: var(--light);
+         }
+         nav a:hover::after, nav a.active::after {
+         width: 100%;
+         }
+         section {
+         margin-bottom: 1.5rem;
+         position: relative;
+         animation: sectionFadeIn 0.5s ease-out forwards;
+         opacity: 0;
+         transform: translateY(8px);
+         }
+         #about { animation-delay: 3.4s; }
+         #work { animation-delay: 3.5s; }
+         #resume { animation-delay: 3.6s; }
+         #contact { animation-delay: 3.7s; }
+         @keyframes sectionFadeIn {
+         to { opacity: 1; transform: translateY(0); }
+         }
+         h2 {
+         color: var(--light);
+         font-size: 1rem;
+         margin-bottom: 0.8rem;
+         display: flex;
+         align-items: center;
+         }
+         h2::before {
+         content: '>';
+         color: var(--accent);
+         margin-right: 0.4rem;
+         animation: headingFlash 1.5s infinite;
+         }
+         @keyframes headingFlash {
+         0%, 100% { opacity: 1; }
+         50% { opacity: 0.5; }
+         }
+         .tagline {
+         font-size: 0.95rem;
+         line-height: 1.4;
+         margin-bottom: 1rem;
+         background: linear-gradient(90deg, var(--accent), var(--secondary));
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+         }
+         .button-group {
+         display: flex;
+         flex-wrap: wrap;
+         gap: 0.4rem;
+         }
+         .action-button {
+         background-color: transparent;
+         color: var(--accent);
+         border: 1.5px solid var(--accent);
+         padding: 0.5rem 1rem;
+         border-radius: 5px;
+         cursor: pointer;
+         font-size: 0.8rem;
+         font-family: 'JetBrains Mono', monospace;
+         transition: all 0.3s ease;
+         display: inline-flex;
+         align-items: center;
+         text-decoration: none;
+         margin-top: 0.3rem;
+         margin-right: 0.3rem;
+         position: relative;
+         overflow: hidden;
+         }
+         .action-button i {
+         margin-right: 0.4rem;
+         position: relative;
+         z-index: 2;
+         }
+         .action-button::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: -100%;
+         width: 100%;
+         height: 100%;
+         background: var(--gradient);
+         transition: transform 0.3s ease;
+         z-index: 1;
+         }
+         .action-button:hover {
+         color: var(--dark);
+         transform: translateY(-2px);
+         box-shadow: 0 3px 8px rgba(0, 255, 157, 0.2);
+         border-color: transparent;
+         }
+         .action-button:hover::before {
+         transform: translateX(100%);
+         }
+         .action-button span {
+         position: relative;
+         z-index: 2;
+         }
+         .hire-me-button {
+         background: var(--gradient);
+         color: var(--dark);
+         border: none;
+         padding: 0.5rem 1rem;
+         border-radius: 5px;
+         cursor: pointer;
+         font-size: 0.8rem;
+         font-weight: bold;
+         font-family: 'JetBrains Mono', monospace;
+         transition: all 0.3s ease;
+         display: inline-flex;
+         align-items: center;
+         text-decoration: none;
+         margin-top: 0.3rem;
+         position: relative;
+         overflow: hidden;
+         }
+         .hire-me-button i {
+         margin-right: 0.4rem;
+         position: relative;
+         z-index: 2;
+         }
+         .hire-me-button::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: var(--gradient-hover);
+         opacity: 0;
+         transition: opacity 0.3s;
+         z-index: 1;
+         }
+         .hire-me-button:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 3px 8px rgba(123, 0, 255, 0.3);
+         }
+         .hire-me-button:hover::before {
+         opacity: 1;
+         }
+         .hire-me-button span {
+         position: relative;
+         z-index: 2;
+         }
+         .contact-info {
+         display: flex;
+         align-items: center;
+         margin-top: 0.8rem;
+         flex-wrap: wrap;
+         gap: 0.5rem;
+         }
+         .contact-info a {
+         color: var(--accent);
+         text-decoration: none;
+         transition: all 0.3s;
+         font-size: 0.8rem;
+         display: inline-flex;
+         align-items: center;
+         position: relative;
+         }
+         .contact-info a::after {
+         content: '';
+         position: absolute;
+         bottom: -1px;
+         left: 0;
+         width: 0;
+         height: 1px;
+         background: var(--gradient);
+         transition: width 0.3s;
+         }
+         .contact-info a:hover::after {
+         width: 100%;
+         }
+         .contact-info a i {
+         margin-right: 0.4rem;
+         }
+         .contact-info a:hover {
+         color: var(--light);
+         }
+         .contact-info a:hover i {
+         animation: iconWiggle 0.5s ease;
+         }
+         @keyframes iconWiggle {
+         0%, 100% { transform: rotate(0); }
+         25% { transform: rotate(10deg); }
+         75% { transform: rotate(-10deg); }
+         }
+         .resume-card {
+         background-color: rgba(0, 255, 157, 0.05);
+         border-radius: 6px;
+         padding: 1rem;
+         margin-bottom: 0.8rem;
+         border: 1px solid rgba(0, 255, 157, 0.2);
+         transition: all 0.3s;
+         position: relative;
+         overflow: hidden;
+         }
+         .resume-card::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 2px;
+         height: 0;
+         background: var(--gradient);
+         transition: height 0.3s ease;
+         }
+         .resume-card:hover::before {
+         height: 100%;
+         }
+         .resume-card:hover {
+         transform: translateX(3px);
+         box-shadow: 0 3px 10px rgba(0, 255, 157, 0.1);
+         }
+         .resume-header {
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         margin-bottom: 0.8rem;
+         }
+         .resume-title {
+         color: var(--light);
+         font-size: 0.95rem;
+         margin: 0;
+         }
+         .resume-details {
+         margin-bottom: 0.8rem;
+         }
+         .resume-item {
+         margin-bottom: 0.6rem;
+         transition: transform 0.3s;
+         }
+         .resume-item:hover {
+         transform: translateX(3px);
+         }
+         .resume-item-title {
+         color: var(--light);
+         font-size: 0.85rem;
+         margin: 0 0 0.1rem 0;
+         }
+         .resume-item-subtitle {
+         color: var(--secondary);
+         font-size: 0.75rem;
+         margin: 0;
+         }
+         .resume-item-date {
+         font-size: 0.7rem;
+         opacity: 0.7;
+         }
+         .skills-list {
+         display: flex;
+         flex-wrap: wrap;
+         gap: 0.4rem;
+         margin-top: 0.6rem;
+         }
+         .skill-tag {
+         background-color: rgba(0, 255, 157, 0.1);
+         border: 1px solid rgba(0, 255, 157, 0.3);
+         border-radius: 3px;
+         padding: 0.2rem 0.5rem;
+         font-size: 0.7rem;
+         transition: all 0.3s;
+         position: relative;
+         overflow: hidden;
+         }
+         .skill-tag:hover {
+         background-color: rgba(0, 255, 157, 0.2);
+         transform: translateY(-1px) scale(1.03);
+         }
+         .skill-tag:nth-child(odd) {
+         border-color: rgba(0, 255, 157, 0.3);
+         }
+         .skill-tag:nth-child(even) {
+         border-color: rgba(255, 0, 170, 0.3);
+         background-color: rgba(255, 0, 170, 0.1);
+         }
+         footer {
+         margin-top: 1.5rem;
+         font-size: 0.7rem;
+         opacity: 0.5;
+         border-top: 1px solid rgba(0, 255, 157, 0.1);
+         padding-top: 0.8rem;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         animation: fadeIn 0.5s ease-out 3.8s forwards;
+         opacity: 0;
+         }
+         .social-links {
+         display: flex;
+         gap: 0.8rem;
+         }
+         .social-links a {
+         color: var(--accent);
+         opacity: 0.7;
+         transition: all 0.3s;
+         font-size: 0.9rem;
+         }
+         .social-links a:hover {
+         opacity: 1;
+         transform: translateY(-1px) scale(1.1);
+         }
+         .social-links a:nth-child(1) { color: var(--accent); }
+         .social-links a:nth-child(2) { color: var(--secondary); }
+         .social-links a:nth-child(3) { color: var(--tertiary); }
+         /* Updated Work Section Styles */
+         .project-spotlight {
+         background: linear-gradient(135deg, rgba(0, 255, 157, 0.15), rgba(123, 0, 255, 0.15));
+         border-radius: 6px;
+         padding: 1rem;
+         margin-bottom: 1rem;
+         border: 1px solid rgba(0, 255, 157, 0.2);
+         position: relative;
+         overflow: hidden;
+         }
+         .spotlight-badge {
+         position: absolute;
+         top: 0;
+         right: 0;
+         background: var(--gradient);
+         color: var(--dark);
+         font-size: 0.6rem;
+         padding: 0.2rem 0.5rem;
+         transform: translateY(-50%) rotate(45deg) translateX(30%);
+         transform-origin: center;
+         width: 80px;
+         text-align: center;
+         }
+         .spotlight-content {
+         display: flex;
+         flex-direction: column;
+         gap: 1rem;
+         }
+         .spotlight-preview {
+         background: var(--dark);
+         border-radius: 5px;
+         height: 100px;
+         display: flex;
+         align-items: center;
+         justify-content: center;
+         border: 1px solid rgba(0, 255, 157, 0.3);
+         position: relative;
+         overflow: hidden;
+         }
+         .spotlight-preview i {
+         font-size: 2rem;
+         background: var(--gradient);
+         -webkit-background-clip: text;
+         background-clip: text;
+         -webkit-text-fill-color: transparent;
+         }
+         .spotlight-preview::after {
+         content: '';
+         position: absolute;
+         inset: 0;
+         background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(123, 0, 255, 0.1));
+         opacity: 0.5;
+         }
+         .spotlight-details h3 {
+         color: var(--light);
+         font-size: 1rem;
+         margin: 0 0 0.6rem 0;
+         }
+         .spotlight-details p {
+         margin-bottom: 0.8rem;
+         font-size: 0.8rem;
+         }
+         .spotlight-links {
+         display: flex;
+         gap: 0.6rem;
+         }
+         .spotlight-link {
+         padding: 0.4rem 0.8rem;
+         border-radius: 3px;
+         text-decoration: none;
+         font-size: 0.7rem;
+         display: inline-flex;
+         align-items: center;
+         transition: all 0.3s;
+         }
+         .spotlight-link i {
+         margin-right: 0.3rem;
+         }
+         .spotlight-link.demo {
+         background: var(--gradient);
+         color: var(--dark);
+         }
+         .spotlight-link.code {
+         background: transparent;
+         color: var(--accent);
+         border: 1px solid var(--accent);
+         }
+         .spotlight-link:hover {
+         transform: translateY(-1px);
+         box-shadow: 0 3px 8px rgba(0, 255, 157, 0.2);
+         }
+         /* Project filter styles */
+         .project-filters {
+         display: flex;
+         flex-wrap: wrap;
+         gap: 0.4rem;
+         margin-bottom: 1rem;
+         }
+         .filter-button {
+         background-color: transparent;
+         color: var(--accent);
+         border: 1px solid var(--accent);
+         border-radius: 3px;
+         padding: 0.3rem 0.6rem;
+         font-size: 0.7rem;
+         font-family: 'JetBrains Mono', monospace;
+         cursor: pointer;
+         transition: all 0.3s ease;
+         }
+         .filter-button:hover, .filter-button.active {
+         background-color: var(--accent);
+         color: var(--dark);
+         }
+         .filter-button:nth-child(2) {
+         border-color: var(--tertiary);
+         color: var(--tertiary);
+         }
+         .filter-button:nth-child(2):hover, .filter-button:nth-child(2).active {
+         background-color: var(--tertiary);
+         color: var(--dark);
+         }
+         /* Updated Project List Styles (one by one) */
+         .project-list {
+         display: flex;
+         flex-direction: column;
+         gap: 1rem;
+         }
+         .project-card {
+         background-color: rgba(0, 255, 157, 0.05);
+         border-left: 2px solid var(--accent);
+         padding: 1rem;
+         transition: all 0.3s;
+         position: relative;
+         overflow: hidden;
+         border-radius: 5px;
+         }
+         .project-card[data-category="fullstack"] {
+         border-left-color: var(--tertiary);
+         }
+         .project-card::before {
+         content: '';
+         position: absolute;
+         top: 0;
+         left: 0;
+         width: 100%;
+         height: 100%;
+         background: linear-gradient(135deg, rgba(0, 255, 157, 0.1), rgba(255, 0, 170, 0.05));
+         opacity: 0;
+         transition: opacity 0.3s;
+         }
+         .project-card:hover {
+         transform: translateY(-3px);
+         box-shadow: 0 3px 10px rgba(0, 255, 157, 0.2);
+         }
+         .project-card:hover::before {
+         opacity: 1;
+         }
+         .project-card h3 {
+         color: var(--light);
+         font-size: 0.95rem;
+         margin: 0 0 0.6rem 0;
+         position: relative;
+         }
+         .project-card h3 a {
+         color: inherit;
+         text-decoration: none;
+         transition: color 0.3s;
+         }
+         .project-card h3 a:hover {
+         color: var(--accent);
+         }
+         .project-card p {
+         font-size: 0.8rem;
+         margin: 0 0 0.8rem 0;
+         opacity: 0.8;
+         position: relative;
+         }
+         .project-tech {
+         display: flex;
+         flex-wrap: wrap;
+         gap: 0.4rem;
+         margin-top: 0.8rem;
+         }
+         .tech-tag {
+         font-size: 0.7rem;
+         background: rgba(0, 255, 157, 0.1);
+         padding: 0.2rem 0.5rem;
+         border-radius: 3px;
+         white-space: nowrap;
+         }
+         .project-card[data-category="fullstack"] .tech-tag {
+         background: rgba(123, 0, 255, 0.1);
+         }
+         /* Show More Button */
+         .show-more-container {
+         text-align: center;
+         margin-top: 1.5rem;
+         }
+         .show-more-btn {
+         background: transparent;
+         color: var(--accent);
+         border: 1.5px dashed var(--accent);
+         padding: 0.5rem 1rem;
+         border-radius: 5px;
+         cursor: pointer;
+         font-size: 0.8rem;
+         font-family: 'JetBrains Mono', monospace;
+         transition: all 0.3s ease;
+         position: relative;
+         overflow: hidden;
+         text-decoration: none;
+         display: inline-flex;
+         align-items: center;
+         }
+         .show-more-btn i {
+         margin-right: 0.4rem;
+         }
+         .show-more-btn:hover {
+         background-color: rgba(0, 255, 157, 0.1);
+         transform: translateY(-1px);
+         }
+         /* Project cards animation */
+         @keyframes fadeInUp {
+         from {
+         opacity: 0;
+         transform: translateY(8px);
+         }
+         to {
+         opacity: 1;
+         transform: translateY(0);
+         }
+         }
+         .project-card {
+         animation: fadeInUp 0.5s ease forwards;
+         opacity: 0;
+         }
+         .project-card:nth-child(1) { animation-delay: 0.1s; }
+         .project-card:nth-child(2) { animation-delay: 0.2s; }
+         .project-card:nth-child(3) { animation-delay: 0.3s; }
+         .project-card:nth-child(4) { animation-delay: 0.4s; }
+         /* Responsive design adjustments */
+         @media (min-width: 768px) {
+         .portfolio-card {
+         max-width: 500px;
+         }
+         .card-content {
+         padding: 1.8rem;
+         }
+         h1 {
+         font-size: 2rem;
+         }
+         .spotlight-content {
+         flex-direction: row;
+         align-items: center;
+         }
+         .spotlight-preview {
+         min-width: 120px;
+         height: 100px;
+         }
+         }
+      </style>
+   </head>
+   <body>
+      <div class="portfolio-card">
+         <div class="card-accent"></div>
+         <div class="card-content">
+            <header>
+               <div class="terminal-prefix">~/portfolio $</div>
+               <div class="name-title-container">
+                  <h1><span class="typing-effect">Aasheesh</span></h1>
+                  <p class="role">Software engineer</p>
+               </div>
+               <nav>
+                  <a href="#about" class="active">About</a>
+                  <a href="#work">Work</a>
+                  <a href="#resume">Resume</a>
+                  <a href="#contact">Contact</a>
+               </nav>
+            </header>
+            <section id="about">
+               <h2>About</h2>
+               <p class="tagline">20, engineer, love building awesome tech ideas.</p>
+               <div class="button-group">
+                  <a href="#work" class="action-button">
+                  <i class="fas fa-code"></i>
+                  <span>View Projects</span>
+                  </a>
+                  <a href="mailto:ashishrathour1102@gmail.com"  class="hire-me-button">
+                  <i class="fas fa-rocket"></i>
+                  <span>Hire Me</span>
+                  </a>
+               </div>
+            </section>
+            <section id="work">
+               <h2>Work</h2>
+               <!-- Project Spotlight - Featured Project -->
+               <div class="project-spotlight">
+                  <div class="spotlight-badge">Featured</div>
+                  <div class="spotlight-content">
+                     <div class="spotlight-preview">
+                        <i class="fas fa-server"></i>
+                     </div>
+                     <div class="spotlight-details">
+                        <h3>Prettify</h3>
+                        <p>Web-based code beautifier that formats and highlights code snippets for improved readability.</p>
+                        <div class="spotlight-links">
+                           <a href="https://prettify-wheat.vercel.app/" class="spotlight-link demo" target="_blank">
+                           <i class="fas fa-external-link-alt"></i> Live Demo
+                           </a>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <!-- Project Filters -->
+               <div class="project-filters">
+                  <button class="filter-button active" data-filter="all">All</button>
+                  <button class="filter-button" data-filter="backend">Backend</button>
+                  <button class="filter-button" data-filter="fullstack">Full Stack</button>
+               </div>
+               <!-- Project List (one by one) -->
+               <div class="project-list">
+                  <div class="project-card" data-category="backend">
+                     <h3><a href="https://github.com/AasheeshLikePanner/Scalable-WebServer" target="_blank">Scalable WebServer</a></h3>
+                     <p>High-performance Java server handling 60k+ concurrent requests with various threading models.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">Java</span>
+                        <span class="tech-tag">Multithreading</span>
+                        <span class="tech-tag">Concurrency</span>
+                     </div>
+                  </div>
+                  <div class="project-card" data-category="fullstack">
+                     <h3><a href="https://github.com/AasheeshLikePanner/DrawZy" target="_blank">DrawZy</a></h3>
+                     <p>Collaborative drawing platform with integrated video calls built with Next.js and Socket.IO.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">Next.js</span>
+                        <span class="tech-tag">Socket.IO</span>
+                        <span class="tech-tag">WebRTC</span>
+                        <span class="tech-tag">Canvas</span>
+                     </div>
+                  </div>
+                  <div class="project-card" data-category="backend">
+                     <h3><a href="https://github.com/AasheeshLikePanner/Api-Gateway" target="_blank">API Gateway</a></h3>
+                     <p>Node.js gateway implementing load balancing, caching, rate limiting, and health checks.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">Redis</span>
+                        <span class="tech-tag">Rate Limiting</span>
+                     </div>
+                  </div>
+                  <div class="project-card" data-category="fullstack">
+                     <h3><a href="https://github.com/AasheeshLikePanner/Hirey" target="_blank">Hirey</a></h3>
+                     <p>Real-time chat app with authentication, media sharing, and modern UI using React and Node.js.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Node.js</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">MongoDB</span>
+                        <span class="tech-tag">Cloudinary</span>
+                     </div>
+                  </div>
+                  <div class="project-card" data-category="backend">
+                     <h3><a href="https://github.com/AasheeshLikePanner/go-wss" target="_blank">go-wss</a></h3>
+                     <p>Lightweight WebSocket server and client in Go for real-time communication and learning purposes.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">Go</span>
+                        <span class="tech-tag">WebSocket</span>
+                        <span class="tech-tag">Networking</span>
+                     </div>
+                  </div>
+                  <div class="project-card" data-category="fullstack">
+                     <h3><a href="https://github.com/AasheeshLikePanner/Hosty" target="_blank">Hosty</a></h3>
+                     <p>Peer-to-peer file transfer system using WebRTC DataChannel for direct, serverless sharing.</p>
+                     <div class="project-tech">
+                        <span class="tech-tag">WebRTC</span>
+                        <span class="tech-tag">Socket.IO</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Vercel</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="show-more-container">
+                  <a href="https://github.com/AasheeshLikePanner" class="show-more-btn" target="_blank">
+                  <i class="fas fa-plus-circle"></i>
+                  <span>View More Projects</span>
+                  </a>
+               </div>
+            </section>
+            <section id="resume">
+               <h2>Resume</h2>
+               <div class="resume-card">
+                  <div class="resume-header">
+                     <h3 class="resume-title">Work Experience</h3>
+                  </div>
+                  <div class="resume-details">
+                     <div class="resume-item">
+                        <h4 class="resume-item-title">I am unemployed 😭</h4>
+                        <p class="resume-item-subtitle">Please hire me 👉👈</p>
+                        <p class="resume-item-date">2004 - Present</p>
+                     </div>
+                  </div>
+               </div>
+               <div class="resume-card">
+                  <div class="resume-header">
+                     <h3 class="resume-title">Technical Skills</h3>
+                  </div>
+                  <div class="resume-details">
+                     <div class="skills-list">
+                        <span class="skill-tag">Go</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">TypeScript</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Express</span>
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Next.js</span>
+                        <span class="skill-tag">Redux</span>
+                        <span class="skill-tag">Tailwind CSS</span>
+                        <span class="skill-tag">WebSocket</span>
+                        <span class="skill-tag">WebRTC</span>
+                        <span class="skill-tag">Socket.IO</span>
+                        <span class="skill-tag">REST API</span>
+                        <span class="skill-tag">MongoDB</span>
+                        <span class="skill-tag">Redis</span>
+                        <span class="skill-tag">PostgreSQL</span>
+                        <span class="skill-tag">MySQL</span>
+                        <span class="skill-tag">NeonDB</span>
+                        <span class="skill-tag">Drizzle ORM</span>
+                        <span class="skill-tag">Docker</span>
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">JWT</span>
+                        <span class="skill-tag">Bcrypt</span>
+                        <span class="skill-tag">Multer</span>
+                        <span class="skill-tag">Axios</span>
+                     </div>
+                  </div>
+               </div>
+            </section>
+            <section id="contact">
+               <h2>Contact</h2>
+               <p>Have a project in mind or just want to chat? Feel free to reach out!</p>
+               <div class="contact-info">
+                  <a href="mailto:ashishrathour1102@gmail.com">
+                  <i class="fas fa-envelope"></i>
+                  ashishrathour1102@gmail.com
+                  </a>
+            </section>
+            <footer>
+               <div>© 2025 Aasheesh. Made with 💻 and ✋.</div>
+               <div class="social-links">
+                  <a href="https://github.com/AasheeshLikePanner" target="_blank">
+                  <i class="fab fa-github"></i>
+                  </a>
+                  <a href="https://linkedin.com/in/aasheesh-rathour" target="_blank">
+                  <i class="fab fa-linkedin"></i>
+                  </a>
+                  <a href="https://twitter.com/aasheesh_dev" target="_blank">
+                  <i class="fab fa-twitter"></i>
+                  </a>
+               </div>
+            </footer>
+         </div>
+      </div>
+      <script>
+         // Filter functionality for projects
+         document.addEventListener('DOMContentLoaded', function() {
+             const filterButtons = document.querySelectorAll('.filter-button');
+             const projectCards = document.querySelectorAll('.project-card');
+             
+             filterButtons.forEach(button => {
+                 button.addEventListener('click', () => {
+                     // Remove active class from all buttons
+                     filterButtons.forEach(btn => btn.classList.remove('active'));
+                     
+                     // Add active class to clicked button
+                     button.classList.add('active');
+                     
+                     // Get filter value
+                     const filter = button.getAttribute('data-filter');
+                     
+                     // Filter projects
+                     projectCards.forEach(card => {
+                         if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                             card.style.display = 'block';
+                         } else {
+                             card.style.display = 'none';
+                         }
+                     });
+                 });
+             });
+         });
+      </script>
+   </body>
+</html>
